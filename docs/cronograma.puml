@@ -1,0 +1,22 @@
+@startgantt
+title Proyecto final
+printscale daily zoom 6
+language es
+hide footbox
+2022-05-25 is closed
+Project starts 2022-05-22
+-- Definición --
+[Diagramas UML] starts 2022-05-22 and lasts 1 day
+-- Codificación --
+[Código del programa base] starts 2022-05-23 and lasts 4 days
+note bottom
+	El día 25 fue período de exámenes en otras materias
+end note
+[Correcciones al programa] starts 2022-05-28 and lasts 1 day
+-- Documentación --
+[Informe general] starts 2022-05-27 and lasts 2 days
+[Javadoc] starts 2022-05-28 and lasts 1 day
+[Manual de usuario] starts 2022-05-28 and lasts 2 days
+[Cronogramas y bitácoras a limpio] starts 2022-05-29 and lasts 1 day
+[Vídeo] starts 2022-05-30 and lasts 2 days
+@endgantt

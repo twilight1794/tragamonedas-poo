@@ -1,0 +1,31 @@
+@startuml
+left to right direction
+
+title Casos de uso
+usecase "Crear un usuario" as U1
+usecase "Eliminar un usuario" as U2
+usecase "Cambiar nombre de un usuario" as U3
+usecase "Cambiar contraseña de un usuario" as U4
+usecase "Cambiar contraseña" as U5
+usecase "Cerrar sesión" as U6
+usecase "Salir" as U7
+usecase "Jugar" as U8
+usecase "Jugar automáticamente" as U9
+usecase "Depositar dinero" as U10
+usecase "Retirar dinero" as U11
+
+Administrador --> U1
+Administrador --> U2
+Administrador --> U3
+Administrador --> U4
+Administrador --> U5
+Administrador --> U6
+Administrador --> U7
+Usuario --> U8
+Usuario --> U9
+Usuario --> U10
+Usuario --> U11
+Usuario --> U5
+Usuario --> U6
+Usuario --> U7
+@enduml 

@@ -1,0 +1,101 @@
+@startuml
+skinParam groupInheritance 11
+left to right direction
+package java.lang {
+  class Exception {}
+  interface Runnable {}
+  interface Serializable {}
+}
+package xyz.campanita.poofinal {
+  package cliente {
+    class Cliente {
+      main(String[]) : void
+    }
+    
+    class Sesion implements Serializable {
+      -usuarioActual : Usuario
+      -usuarios : ArrayList<Usuario>
+      +cambiarContrasena(String, String) : void
+      +cambiarContrasenaUsuario(String, String) : void
+      +cerrarSesion() : void
+      +crearUsuario(String, String, boolean) : void
+      +creditosUsuario() : int
+      +depositarDinero(int) : void
+      +eliminarUsuario(String) : void
+      +existeSesion() : boolean
+      +getListaUsuarios() : ArrayList<String>
+      +iniciarSesion(String, String) : void
+      +jugar(Juego, int) : int
+      +limpiar() : void
+      +nombreUsuario() : String
+      +numeroUsuarios() : int
+      +renombrarUsuario(String, String) : void
+      +restaurar() : void
+      +retirarDinero(int) : void
+      +tipoUsuario() : boolean
+    }
+    
+    class Usuario {
+      -creditos : int
+      -d : MessageDigest
+      -hashContrasena : byte[]
+      -nombre : String
+      -tipo : boolean
+      +aumentarCredito(int) : void
+      +disminuirCredito(int) : void
+      +esContrasena(String) : boolean
+      +getCreditos() : int
+      +getNombre() : String
+      +getTipo() : boolean
+      +limpiar() : void
+      +restaurar() : void
+      +setContrasena(String) : void
+      +setNombre(String) : void
+    }
+    Cliente o-- Sesion
+    Sesion o-- Usuario
+    Cliente o-- excepciones
+    Sesion o-- excepciones
+    Usuario o-- excepciones
+  }
+  
+  package excepciones {
+    class ExcepcionContrasenaIncorrecta extends Exception {}
+    class ExcepcionContrasenaInvalida extends Exception {}
+    class ExcepcionIngresoInsuficiente extends Exception {}
+    class ExcepcionOpcionIncorrecta extends Exception {}
+    class ExcepcionPropioUsuario extends Exception {}
+    class ExcepcionSaldoExcedente extends Exception {}
+    class ExcepcionSaldoInsuficiente extends Exception {}
+    class ExcepcionSesionUsuarioExistente extends Exception {}
+    class ExcepcionSesionUsuarioInexistente extends Exception {}
+    class ExcepcionUsuarioExistente extends Exception {}
+    class ExcepcionUsuarioIncorrecto extends Exception {}
+  }
+  
+  package juego {
+    interface Juego {
+      juego(int) : int
+    }
+    package Tragamonedas {
+      enum Simbolos {
+        -caracter : String
+        -caracterASCII : String
+        -creditos : int[3]
+        +obt3() : int
+        +obt4() : int
+        +obt5() : int
+      }
+      class R1 implements Runnable {
+      }
+      class Tragamonedas implements Juego {
+        juego(int) : int
+      }
+      R1 *-- Tragamonedas
+      Simbolos o-- Tragamonedas
+      Tragamonedas o-- excepciones
+    }
+  }
+  cliente.Sesion::Juego -- juego.Tragamonedas::Tragamonedas
+}
+@enduml 

@@ -1,0 +1,67 @@
+% Plantilla para trabajos escolares
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+%\usepackage[margin=.5in]{geometry} % márgenes
+\usepackage{graphicx} % para las imagenes
+\usepackage{subcaption}
+\usepackage{wrapfig}
+\graphicspath{ {./img/} }
+%\usepackage{xcolor} % para los diagramas uml
+%\usepackage{tikz}
+\usepackage{enumitem} % para las listas de definicion
+\usepackage{mathptmx} % para Times
+\usepackage{minted}% para código
+\usemintedstyle{vs}
+\fontfamily{ptm}\selectfont
+\AddToHook{cmd/section/before}{\clearpage}
+
+% titulo, autor, fecha, equipo
+\newcommand{\portadae}[5]{
+  \begin{titlepage}
+    \begin{center}
+      \Huge
+      Universidad Nacional Autónoma de México
+
+      \vspace*{1cm}
+
+      \LARGE
+      Facultad de Ingeniería
+
+      \vspace*{1cm}
+
+      \Large
+      Programación orientada a objetos
+
+      \vspace*{1cm}
+
+      \large
+      Prof. Edgar Tista García
+
+      \vfill
+
+      \LARGE
+      \textbf{#1}
+
+      \vfill
+
+      \Large
+      Equipo #4
+
+      \vspace*{1cm}
+
+      \textbf{Integrantes:}
+
+      #2
+
+      \vfill
+
+      %\includegraphics[width=0.4\textwidth]{university}
+
+      \textbf{Fecha de entrega}
+
+      #3
+    \end{center}
+  \end{titlepage}
+}

@@ -1,0 +1,115 @@
+\documentclass[letterpaper,12pt]{article}
+\input{estilos}
+
+\begin{document}
+\portadae{Proyecto final: máquina de casino}{Garciliano Díaz Giovanni Alfredo }{31 de mayo de 2022}{2}
+
+\section{Objetivos del proyecto}
+\subsection{Objetivos generales}
+\begin{enumerate}
+\item Que el alumno ponga en práctica todos los conceptos vistos a lo largo del curso, en el desarrollo de una aplicación real.
+\item Que el alumno fortalezca sus habilidades en la programación orientada a objetos.
+\item Que el alumno fortalezca sus habilidades en trabajo en equipo.
+\end{enumerate}
+
+\subsection{Objetivos específicos}
+\begin{enumerate}
+\item Averiguar cuánto se ha aprendido de todos los conceptos estudiados en el curso.
+\item Realizar una implementación adecuada de una máquina tragamonedas.
+\item Decidir cuál es la mejor forma de implementar ciertos algoritmos, y cuál es la mejor estructura de datos para ello.
+\end{enumerate}
+
+\section{Análisis}
+\subsection{Colecciones}
+Las colecciones son estructuras de datos muy versátiles, por eso Java dispone de una jerarquía de varias clases e interfaces para organizarlas: hay interfaces para crear conjuntos (\mintinline{Java}{Set}), para crear listas (\mintinline{Java}{List}), y colas (\mintinline{Java}{Queue}) Sin embargo, lo que todas tienen en común, es que todas las clases que implementan la interfaz Collection, o una de sus subinterfaces, pueden almacenar objetos dentro de ellos. Aún así, para una aplicación normal, generalmente, solo se necesitan uno o dos tipos de colecciones.
+
+En el programa, se ha optado por usar tanto vectores como colecciones de tipo \mintinline{Java}{ArrayList}, que es una lista que usa como estructura de datos subyacente un vector, esto por la facilidad que supone manejarlos. ¿Cuándo se prioriza una sobre otra?
+
+\begin{description}[style=nextline]
+\item[Vectores]
+Cuando es imperativo acceder a los elementos por sus índices, con un tamaño ya definido, y no hay qué realizar otras operaciones más que las de acceso, entonces se decidió usar un simple vector. Las principales ventajas de los vectores son su facilidad para declararlas en el código, y su bajo uso de memoria. Esta forma se usó cuando se necesitaban colecciones temporales, como en los bucles \mintinline{Java}{for}.
+
+\item[\mintinline{Java}{ArrayList}]
+Por otro lado, cuando se necesitaban realizar otras operaciones además del acceso, como la adición de elementos, o revolver sus elementos, es entonces cuando los vectores ya no son útiles. La clase \mintinline{Java}{ArrayList}, con sus métodos, permite fácilmente realizar diversas operaciones sobre la clase. Esta clase se usó, por ejemplo, para obtener los elementos aleatorios que componen la salida de cada rodillo de la ruleta, pues era necesario revolverla antes de usarla.
+\end{description}
+
+\subsection{Paquetes}
+Los paquetes son un concepto muy útil para ordenar los diferentes componentes lógicos de un programa, es decir, los módulos. La estructura de paquetes sigue una línea estrictamente jerárquica. Este programa está agrupado todo en un paquete, \mintinline{Java}{xyz.campanita.poofinal}, que contiene tres subpaquetes: \mintinline{Java}{cliente}, que contiene módulos para la interfaz de usuario y la administración de ellos, \mintinline{Java}{excepciones}, que contiene todas las excepciones personalizadas usadas, y \mintinline{Java}{juego}, que contiene los juegos usados en el programa (por ahora, solo uno), y la interfaz que los define.
+
+\subsection{Modificadores de acceso}
+Los modificadores de acceso permiten diseñar clases limpias, con interfaces estables que permiten realizar las  cosas de una manera predecible (cuando están bien hechas). Como sabemos, en las clases, los atributos o métodos pueden ser, \mintinline{Java}{public}, \mintinline{Java}{private}, \mintinline{Java}{protected}, o \mintinline{Java}{friendly}, éste último no se escribe, y representa el tipo de protección predeterminada.
+
+En este programa, se decidió hacer un uso extensivo de dichos mecanismos de protección, y entonces, todas las clases tienen sus atributos privados, y solo pueden accederse a ella mediante los \emph{getters} y \emph{setters}. Algunos \emph{getters} y \emph{setters} realizaban operaciones especiales: por ejemplo, el método para establecer una contraseña no modifica solamente el atributo que contiene la contraseña (en parte porque no existe tal atributo), sino que verifica que la contraseña nueva cumpla con unos criterios, y luego genera el hash de la contraseña nueva, para almacenar el hash (pero no la contraseña). El hash nunca es visible para nadie, y así no se puede disponer de él si no se conoce de antemano la contraseña que corresponde, evitando posibles ataques de fuerza bruta.
+
+\subsection{Herencia y polimorfismo}
+La herencia y el polimorfismo son dos características del paradigma orientado a objetos. Mediante la herencia podemos crear nuevas clases que comparten varias características de la clase padre; mientras que el polimorfismo permite tratar a dichas clases como otras, dentro de la jerarquía de clases.
+
+En este programa, aunque no se definieron subclases propias que heredaran de clases propias, sí se usó el concepto de herencia con clases que heredan de otras del sistema: por ejemplo, todas las excepciones definidas heredan de \mintinline{Java}{java.lang.Exception}, o los hilos que heredan de una clase \mintinline{Java}{Thread}.
+
+
+\subsection{Clases abstractas e interfaces}
+Las clases abstractas e interfaces son formas que permiten organizar varias clases, estableciendo ciertas directrices que las implementaciones y derivaciones deben cumplir. Las clases abstractas se utilizan cuando el molde es semánticamente una superclase de las clases que derivarán a la clase abstracta, y las interfaces cuando no hay esa relación de herencia, y la clase se limita simplemente a cumplir las especificaciones.
+
+En este programa, realmente no hizo falta crear clases abstractas, ya que el diseño es bastante simple, sin embargo, sí se usó una interfaz: la clase \mintinline{Java}{Tragamonedas} implementa la interfaz \mintinline{Java}{Juego}, que solo requiere una cosa: que la clase tenga una función que acepte un entero, y devuelva otro. Esto es así, porque el método \mintinline{Java}{jugar} de la clase \mintinline{Java}{Sesion} aceptará como juego cualquier objeto que implemente la interfaz \mintinline{Java}{Juego}, para así, poder llamar sin problemas a su método \mintinline{Java}{Juego}.
+
+\subsection{Excepciones}
+Las excepciones son el mecanismo que tienen muchos lenguajes de programación para tratar errores inesperados (o esperados, pero inciertos) durante la ejecución del programa. En Java, la biblioteca estándar provee ya una serie de excepciones que pueden ser utilizadas en los programas de serie, pero también podemos definir nuestras propias excepciones. Todas las excepciones de Java deben ser subclases de \mintinline{Java}{java.lang.Exception}, de forma directa o indirecta.
+
+En este programa, se crearon varias excepciones, todas heredando de la clase \mintinline{Java}{Exception}, excepto una, que hereda de la clase \mintinline{Java}{InputMismatchException}. Las excepciones cubren distintos errores, y se listan y detallan en la documentación generada por Javadoc.
+
+\subsection{Archivos}
+En este programa, como en muchos otros, los archivos son usados para guardar datos de forma persistente, aún después de finalizar la ejecución del programa. En el caso de nuestro programa, la persistencia de datos nos sirve para dos cosas:
+
+\begin{description}[style=nextline]
+\item[Datos de sesión]
+Corresponden a los datos que conforman el estado del programa: en este caso, solo se guarda el usuario que ha  iniciado sesión actualmente.
+
+\item[Datos de usuario]
+Corresponden al nombre, contraseña, y la cantidad de créditos poseídos.
+\end{description}
+
+Así, cuando ejecutamos nuestro programa, lo primero que hace es verificar si existe un «volcado» del estado del programa, si es así, lo carga para recuperar la sesión existente, de lo contrario, crea uno para guardar el estado de la memoria al cerrar la sesión.
+
+Pero, sea lo que sea que se haya qué guardar, se hace en forma de un archivo de objeto de Java. Para eso, tenemos a nuestra disposición varias clases del paquete \mintinline{Java}{java.io}: \mintinline{Java}{ObjectInputStream} y \mintinline{Java}{ObjectOutputStream} para crear el flujo de datos que codifica los objetos; y \mintinline{Java}{FileInputStream} y \mintinline{Java}{FileOutputStream} para enlazar a los archivos.
+
+\subsection{Especial: hilos}
+Un hilo es una línea de ejecución con instrucciones secuenciales. Cuando un proceso se crea, normalmente lo hace dentro de un solo hilo, pero podemos hacer que un proceso cree más hilos, para poder ejecutar más instrucciones al mismo tiempo. Normalmente, esto puede ser verdadero (ejecutando el otro hilo en una unidad de procesamiento distinta, como los núcleos de un CPU), o una ilusión (ejecutar durante un pequeño tiempo un hilo, luego saltar al otro hilo y ejecutar un pequeño tiempo este hilo, y así, lo que se llama concurrencia. Cuando un programa, proceso o algoritmo se adapta para poder tener varios hilos al mismo tiempo, sean concurrentes o no, decimos que hemos \emph{paralelizado} dicho proceso.
+
+En este programa, basado principalmente en la interacción con el usuario, no hay muchas oportunidades para intentar paralelizar alguna parte del proceso, y de manera segura: hay situaciones que podrían ser paralelizadas, pero problemas como las \emph{condiciones de carrera} lo dificultan bastante, y las soluciones pueden eliminar todas las mejoras que se podrían haber obtenido con la paralelización, así que hay qué escoger muy bien, para ver si conviene. Por ello, solo se ha paralelizado una pequeña sección del programa: un bucle que rellena los rodillos del juego de tragamonedas. Esto se detalla más en la sección siguiente.
+
+\section{Desarrollo del proyecto}
+El proyecto no fue tan difícil como esperaba, y desde el principio ya tenía una idea de cómo debía quedar el programa. Así que lo primero que hice fue dibujar los diagramas UML, para que ya quedara definida la estructura del proyecto. Aún así, imaginarse un proyecto es una cosa, pero materializarlo es otra muy distinta, de modo que en esta sección describo el proceso de desarrollo del programa.
+
+Todo el programa reside en un paquete, llamado \mintinline{Java}{xyz.campanita.poofinal}. El paquete se llama así porque poseo el dominio 'campanita.xyz', y pues hay qué usarlo, y por que este proyecto es el final de la asignatura. Dentro del paquete, todo el proyecto está estructurado de la siguiente manera:
+\begin{description}[style=nextline]
+\item[\mintinline{Java}{.cliente}]
+  Este subpaquete agrupa todas las clases que tienen algo qué ver con la interacción al usuario. Se compone de los siguientes módulos:
+  \begin{description}[style=nextline]
+  \item[\mintinline{Java}{Cliente}]
+    Es el punto de entrada, la aplicación que el usuario ejecuta, y que maneja toda la entrada y salida de éste. Al colocar toda la interacción del usuario, el programa puede adaptarse para recibir otro tirpo de interacciones, además de la CLI.
+  \item[\mintinline{Java}{Sesion}]
+    Es la clase que resguarda una sesión de aplicación, y además, puede almacenar una sesión de usuario, si esta existe. La diferencia entre las dos sesiones se ilustra en detalle más abajo. Implementa la interfaz \mintinline{Java}{java.lang.Serializable}, y su contenido es volcado en un archivo al final del programa, y leído, si existe, al inicio, para garantizar la persistencia de la aplicación.
+  \item[\mintinline{Java}{Usuario}]
+    Es la clase que implementa el concepto de usuario en el grupo. Un objeto de esta clase almacena los datos de un usuario: su nombre, el hash de su contraseña, y el número de créditos. Esta clase también implementa la interfaz \mintinline{Java}{java.lang.Serializable} para poder almacenarse en el archivo de volcado. ¿Por qué se almacena el hash, y no la contraseña? Por seguridad: el archivo de volcado guarda los objetos de Java en un formato binario, pero las cadenas de texto pueden apreciarse entre el flujo de datos, por lo que si la contraseña se almacenara tal cual, podría averiguarse sin ninguna dificultad. Guardando el hash de la contraseña, en vez de la contraseña en sí, evita ese problema.
+  \end{description}
+
+  Una cosa muy importante a diferenciar es el concepto de sesión de usuario, y de sesión de aplicación. En este programa, una sesión de aplicación representa el estado general del programa en un momento determinado, mientras que la sesión de usuario representa el estado de un usuario en particular. Dado que este programa es muy simple, la sesión de aplicación simplemente se define por la lista de usuarios registrados, y por el usuario que tenga una sesión iniciada en el sistema, si no existe, este valor es nulo; mientras que la sesión de usuario simplemente se denota por si está activo o no. Podemos hacer una analogía con un navegador: la sesión de aplicación representa el estado del navegador: qué pestañas tenía abiertas en un momento dado, mientras que la sesión de usuario está dentro de la sesión de aplicación, e indica las posibles páginas en las que el usuario hubiera iniciado sesión, lo que se manifiesta físicamente en forma de \emph{cookies}, u información en otras tecnologías más nuevas, como \emph{LocalStorage}.
+
+\item[\mintinline{Java}{.excepciones}]
+  Este subpaquete es el más fácil de explicar: simplemente contiene todas las excepciones que se usan en el programa. Tampoco hace falta explicar aquí el funcionamiento de cada una, para eso está la documentación autogenerada por Javadoc.
+
+\item[\mintinline{Java}{.juego}]
+  Este subpaquete agrupa los juegos que pueden jugarse mediante la aplicación, aunque por ahora, solo haya uno. Aquí se encuentra también la interfaz que deben implementar todos los juegos, \mintinline{Java}{Juego}, que solo exige que la clase que representa al juego tenga un método \mintinline{Java}{juego}, que recibirá un entero que representa el número de créditos apostados, y devolverá un entero, que representa el número de créditos ganados en una ronda del juego. Este método servirá para jugar una ronda.
+
+  El único juego que se encuentra es el del módulo \mintinline{Java}{Tragamonedas}. Este juego implementa una máquina tragamonedas muy sencilla, de cinco rodillos y tres filas. Los detalles del juego, así como los puntajes exactos que se ganarían al obtener una combinación de un número determinado de símbolos determinados se explican en el manual del mismo.
+\end{description}
+
+\section{Conclusiones}
+%\subsection{Giovanni Alfredo Garciliano Díaz}
+Este proyecto ha sido de mucha utilidad, pues me ha permitido trabajar por mi cuenta todos los conceptos vistos en el curso de forma conjunta. Por ejemplo, he podido decidir cuándo y qué clases crear, si deben heredar o no de cierta clase, o si deben implementar alguna interfaz. También qué tipo de colecciones son las más adecuadas para cierto trabajo, si era necesario usar excepciones, y qué problemas del mundo real debían ser modelados como excepciones, o como simples cambios en una variable, a como se hace en C. Qué tipo de archivos se debían usar (porque a veces conviene más usar archivos de texto, plano o en algún otro formato estructurado como JSON), aunque al final se haya decidido usar el formato nativo de Java para serializar objetos. Por último, también decidí qué partes de las instrucciones deberían ser paralelizadas, y cuales no.
+
+En suma, hubo cosas en las que este proyecto ayudó mucho, y es la de prestar atención a los detalles. Por ejemplo, al principio, cuando se inicia el programa por primera vez, el programa preguntaba al crear la primera cuenta si la cuenta iba a ser o no administradora. Elegir en este paso la opción de administrador es lo razonable y correcto, pero si se elige lo contrario, la cuenta sería común, y no se podrían crear otras cuentas después. Entonces, hubo qué simplificar esa opción, haciendo que la primera cuenta se creara ahministradora de forma predeterminada.
+
+Otros aspectos que se han de mencionar, son los relacionados con el lenguaje. Yo creo que Java, a pesar de sus ventajas, tiene varios problemas, sin embargo, mencionaré el único que me ha supuesto un problema en este proyecto: el hecho de que \mintinline{Java}{this} sea opcional para referirse a los miembros de una clase, desde esa misma clase, lo que lleva a ambigüedades. Una variable x puede referirse a una variable local, y si no existe, entonces puede referirse a un miembro de su clase, lo que causa muchos problemas, mientras que en otros lenguajes, como JavaScript, no usar \mintinline{Java}{this} para un miembro de clase generará un error de referencia.
+
+\end{document}
